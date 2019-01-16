@@ -1,0 +1,38 @@
+{% if is_granted("ROLE_SUPER_ADMIN") %}
+    {% set base = 'base2.html.twig' %}
+{% else %}
+    {% set base = 'base.html.twig' %}
+{% endif %}
+{% extends base %}
+
+{% block title %}Bestelling index{% endblock %}
+
+{% block body %}
+    <h1>Bestelling</h1>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Reservering</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for bestelling in bestellings %}
+            <tr>
+                <td>{{ bestelling.reservering }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('bestelling_show', {'id': bestelling.id}) }}">Bekijk</a>
+                    <a class="btn btn-warning" href="{{ path('bestelling_edit', {'id': bestelling.id}) }}">Bewerk</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Geen gegevens gevonden</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('bestelling_new') }}">Nieuw</a>
+{% endblock %}

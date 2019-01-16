@@ -1,0 +1,13 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit Reservering{% endblock %}
+
+{% block body %}
+<h1>Reservering bewerken</h1>
+<hr>
+{{ include('reservering/_form.html.twig', {'button_label': 'Update'}) }}
+<br>
+<a class="btn btn-primary" href="{{ path('reservering_index') }}">Terug</a>
+<br>
+{{ include('reservering/_delete_form.html.twig') }}
+{% endblock %}

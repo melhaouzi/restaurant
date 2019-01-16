@@ -1,0 +1,39 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Gerecht index{% endblock %}
+
+{% block body %}
+    <h1>Gerecht</h1>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Naam</th>
+            <th>Beschrijving</th>
+            <th>Prijs</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gerecht in gerechts %}
+            <tr>
+                <td>{{ gerecht.id }}</td>
+                <td>{{ gerecht.naam }}</td>
+                <td>{{ gerecht.beschrijving }}</td>
+                <td>{{ gerecht.prijs }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('gerecht_show', {'id': gerecht.id}) }}">Bekijk</a>
+                    <a class="btn btn-warning" href="{{ path('gerecht_edit', {'id': gerecht.id}) }}">Bewerk</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Geen gegevens gevonden</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('gerecht_new') }}">Nieuw</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New Openingstijden{% endblock %}
+
+{% block body %}
+<h1>Openingstijden toevoegen</h1>
+<hr>
+{{ include('openingstijden/_form.html.twig') }}
+<br>
+<a href="{{ path('openingstijden_index') }}" class="btn btn-primary">Terug</a>
+{% endblock %}

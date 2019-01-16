@@ -1,0 +1,26 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}GerechtType{% endblock %}
+
+{% block body %}
+<h1>GerechtType</h1>
+<hr>
+<table class="table">
+    <tbody>
+	        <tr>
+            <th>Id</th>
+            <td>{{ gerecht_type.id }}</td>
+        </tr>
+	        <tr>
+            <th>Naam</th>
+            <td>{{ gerecht_type.naam }}</td>
+        </tr>
+	    </tbody>
+</table>
+
+<a href="{{ path('gerecht_type_index') }}" class="btn btn-primary">Terug</a>
+<br>
+<a class="btn btn-warning" href="{{ path('gerecht_type_edit', {'id': gerecht_type.id}) }}">Bewerken</a>
+<br>
+{{ include('gerecht_type/_delete_form.html.twig') }}
+{% endblock %}

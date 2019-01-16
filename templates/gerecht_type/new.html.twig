@@ -1,0 +1,11 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New GerechtType{% endblock %}
+
+{% block body %}
+<h1>GerechtType toevoegen</h1>
+<hr>
+{{ include('gerecht_type/_form.html.twig') }}
+<br>
+<a href="{{ path('gerecht_type_index') }}" class="btn btn-primary">Terug</a>
+{% endblock %}

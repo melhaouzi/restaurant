@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Openingstijden index{% endblock %}
+
+{% block body %}
+<h1>Openingstijden</h1>
+<hr>
+<table class="table">
+    <thead>
+    <tr>
+		            <th>Id</th>
+		            <th>Dag</th>
+		            <th>Opening</th>
+		            <th>Sluiting</th>
+		        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for openingstijden in openingstijdens %}
+    <tr>
+		            <td>{{ openingstijden.id }}</td>
+		            <td>{{ openingstijden.dag }}</td>
+		            <td>{{ openingstijden.opening ? openingstijden.opening|date('H:i:s') : '' }}</td>
+		            <td>{{ openingstijden.sluiting ? openingstijden.sluiting|date('H:i:s') : '' }}</td>
+		        <td>
+            <a class="btn btn-primary" href="{{ path('openingstijden_show', {'id': openingstijden.id}) }}">Bekijk</a>
+            <a class="btn btn-warning" href="{{ path('openingstijden_edit', {'id': openingstijden.id}) }}">Bewerk</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="5">Geen gegevens gevonden</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a class="btn btn-success" href="{{ path('openingstijden_new') }}">Nieuw</a>
+{% endblock %}

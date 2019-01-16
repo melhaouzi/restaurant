@@ -1,0 +1,13 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit Btw{% endblock %}
+
+{% block body %}
+<h1>Btw bewerken</h1>
+<hr>
+{{ include('btw/_form.html.twig', {'button_label': 'Update'}) }}
+<br>
+<a class="btn btn-primary" href="{{ path('btw_index') }}">Terug</a>
+<br>
+{{ include('btw/_delete_form.html.twig') }}
+{% endblock %}

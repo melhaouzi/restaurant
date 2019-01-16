@@ -1,0 +1,11 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New Btw{% endblock %}
+
+{% block body %}
+<h1>Btw toevoegen</h1>
+<hr>
+{{ include('btw/_form.html.twig') }}
+<br>
+<a href="{{ path('btw_index') }}" class="btn btn-primary">Terug</a>
+{% endblock %}

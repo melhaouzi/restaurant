@@ -1,0 +1,35 @@
+{% if is_granted("ROLE_SUPER_ADMIN") %}
+    {% set base = 'base2.html.twig' %}
+{% else %}
+    {% set base = 'base.html.twig' %}
+{% endif %}
+{% extends base %}
+
+{% block title %}Reservering{% endblock %}
+
+{% block body %}
+<h1>Reservering</h1>
+<hr>
+<table class="table">
+    <tbody>
+	        <tr>
+            <th>Id</th>
+            <td>{{ reservering.id }}</td>
+        </tr>
+	        <tr>
+            <th>Datum</th>
+            <td>{{ reservering.datum ? reservering.datum|date('Y-m-d') : '' }}</td>
+        </tr>
+	        <tr>
+            <th>Aantal_personen</th>
+            <td>{{ reservering.aantalPersonen }}</td>
+        </tr>
+	    </tbody>
+</table>
+
+<a href="{{ path('reservering_index') }}" class="btn btn-primary">Terug</a>
+<br>
+<a class="btn btn-warning" href="{{ path('reservering_edit', {'id': reservering.id}) }}">Bewerken</a>
+<br>
+{{ include('reservering/_delete_form.html.twig') }}
+{% endblock %}

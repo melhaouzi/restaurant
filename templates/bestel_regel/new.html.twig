@@ -1,0 +1,11 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}New BestelRegel{% endblock %}
+
+{% block body %}
+<h1>BestelRegel toevoegen</h1>
+<hr>
+{{ include('bestel_regel/_form.html.twig') }}
+<br>
+<a href="{{ path('bestel_regel_index') }}" class="btn btn-primary">Terug</a>
+{% endblock %}

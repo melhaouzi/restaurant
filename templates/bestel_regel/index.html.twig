@@ -1,0 +1,35 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}BestelRegel index{% endblock %}
+
+{% block body %}
+<h1>BestelRegel</h1>
+<hr>
+<table class="table">
+    <thead>
+    <tr>
+		            <th>Id</th>
+		            <th>Aantal</th>
+		        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for bestel_regel in bestel_regels %}
+    <tr>
+		            <td>{{ bestel_regel.id }}</td>
+		            <td>{{ bestel_regel.aantal }}</td>
+		        <td>
+            <a class="btn btn-primary" href="{{ path('bestel_regel_show', {'id': bestel_regel.id}) }}">Bekijk</a>
+            <a class="btn btn-warning" href="{{ path('bestel_regel_edit', {'id': bestel_regel.id}) }}">Bewerk</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="3">Geen gegevens gevonden</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a class="btn btn-success" href="{{ path('bestel_regel_new') }}">Nieuw</a>
+{% endblock %}

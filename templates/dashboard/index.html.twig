@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+    {% set totaal = 0 %}
+    {% set dezemaand= 0 %}
+    {% set vorigemaand = 0 %}
+    {% for row in regels %}
+        {% set totaal = totaal + row.aantal * row.gerecht.prijs %}
+    {% endfor %}
+    {% for row in regels if row.bestelling.datum|date('m')== 'now'|date_modify('-1 month')|date('m') %}
+        {% set vorigemaand = totaal + row.aantal * row.gerecht.prijs %}
+    {% endfor %}
+    {% for row in regels if row.bestelling.datum|date('m') == 'now'|date('m') %}
+        {% set dezemaand = totaal + row.aantal * row.gerecht.prijs %}
+    {% endfor %}
+    <div class="jumbotron short">
+        <h2>Totaal</h2>
+        <hr>
+        <h4 class="badge badge-success" style="font-size: 14pt">&euro; {{ totaal|number_format(2, ',','.') }}</h4>
+    </div>
+    <div class="jumbotron short">
+        <h4>Deze maand ({{ 'now'|date('M') }})</h4>
+        <hr>
+        <h4 class="badge badge-success" style="font-size: 14pt">&euro; {{ dezemaand|number_format(2, ',','.') }}</h4>
+    </div>
+    <div class="jumbotron short">
+    <h3>Vorige maand ({{ 'now'|date_modify('-1 month')|date('M') }})</h3>
+    <hr>
+    <h4 class="badge badge-success" style="font-size: 14pt">&euro; {{ vorigemaand|number_format(2, ',','.') }}</h4>
+    </div>{% endblock %}

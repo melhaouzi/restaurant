@@ -1,0 +1,47 @@
+{% if is_granted("ROLE_SUPER_ADMIN") %}
+    {% set base = 'base2.html.twig' %}
+{% else %}
+    {% set base = 'base.html.twig' %}
+{% endif %}
+{% extends base %}
+
+{% block title %}Reservering index{% endblock %}
+
+{% block body %}
+    <h1>Reservering</h1>
+    <hr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Klant</th>
+            <th>Aantal personen</th>
+            <th>Tafels</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservering in reserverings %}
+            <tr>
+                <td>{{ reservering.datum ? reservering.datum|date('Y-m-d') : '' }}</td>
+                <td>{{ reservering.klant }}</td>
+                <td>{{ reservering.aantalPersonen }}</td>
+                <td>{% for row in reservering.tafels %}
+                        <h4 style="font-size: 12pt" class="badge badge-success">{{ row.naam }}</h4>
+                {% endfor %}
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('reservering_show', {'id': reservering.id}) }}">Bekijk</a>
+                    <a class="btn btn-warning" href="{{ path('reservering_edit', {'id': reservering.id}) }}">Bewerk</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Geen gegevens gevonden</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('reservering_toevoegen') }}">Nieuw</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit Tafel{% endblock %}
+
+{% block body %}
+<h1>Tafel bewerken</h1>
+<hr>
+{{ include('tafel/_form.html.twig', {'button_label': 'Update'}) }}
+<br>
+<a class="btn btn-primary" href="{{ path('tafel_index') }}">Terug</a>
+<br>
+{{ include('tafel/_delete_form.html.twig') }}
+{% endblock %}

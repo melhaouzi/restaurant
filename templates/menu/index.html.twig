@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MenuController!{% endblock %}
+
+{% block body %}
+    <h1>Menu</h1>
+    <hr>
+    {% for row in types %}
+        <div class="menu">
+            <h3>{{ row.naam }}</h3>
+            <table class="table table-striped table-menu">
+                {% for m in menu if m.type.id == row.id %}
+                    <tr>
+                        <td><b>{{ m.naam }}</b> <br> {{ m.beschrijving }}</td>
+                        <td>&euro;{{ m.prijs|number_format(2,',','.') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>Geen gerechten</td>
+                        <td>Geen prijs</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
+
+{% endblock %}

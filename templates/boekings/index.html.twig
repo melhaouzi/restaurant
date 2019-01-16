@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello !{% endblock %}
+
+{% block body %}
+    <h1>Reserveren</h1>
+    <hr>
+    {% if app.user %}
+    {% if message is defined %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endif %}
+    {% if (form) %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% else %}
+        <a href="{{ path('reservering_toevoegen') }}" class="btn btn-primary">Reservering maken</a>
+    {% endif %}
+    {% else %}
+    <h2>Login om te reserveren. U kunt ook telefonisch bestellen</h2>
+    {% endif %}
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+{% endblock %}

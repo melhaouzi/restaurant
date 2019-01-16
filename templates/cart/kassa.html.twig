@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .container {
+            width: 100vw !important;
+            margin: -15px !important;
+            overflow-x: hidden !important;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="cats">
+        {% for row in categorie %}
+            <button class="btn btn-primary cat-btn" onclick="getgerechten({{ row.id }})">
+                {{ row.naam }}
+            </button><br><br>
+        {% endfor %}
+    </div>
+    <div class="kassa-screen" id="kassa-screen">
+        <h1><- Selecteer een item</h1>
+    </div>
+    <div class="cart" id="cart">
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+        function getgerechten(cat) {
+            var xhttp;
+
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("kassa-screen").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "get/categorie/" + cat, true);
+            xhttp.send();
+        }
+
+        function addToCart(id) {
+            var xhttp;
+
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    getCart();
+                }
+            };
+            xhttp.open("GET", "add/" + id, true);
+            xhttp.send();
+        }
+
+        function remove(id) {
+            var xhttp;
+
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    getCart();
+                }
+            };
+            xhttp.open("GET", "remove/" + id, true);
+            xhttp.send();
+        }
+
+        function getCart() {
+            var xhttp;
+
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("cart").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "/../../cart", true);
+            xhttp.send();
+        }
+    </script>
+{% endblock %}

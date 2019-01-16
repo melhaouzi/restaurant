@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Openingstijden{% endblock %}
+
+{% block body %}
+<h1>Openingstijden</h1>
+<hr>
+<table class="table">
+    <tbody>
+	        <tr>
+            <th>Id</th>
+            <td>{{ openingstijden.id }}</td>
+        </tr>
+	        <tr>
+            <th>Dag</th>
+            <td>{{ openingstijden.dag }}</td>
+        </tr>
+	        <tr>
+            <th>Opening</th>
+            <td>{{ openingstijden.opening ? openingstijden.opening|date('H:i:s') : '' }}</td>
+        </tr>
+	        <tr>
+            <th>Sluiting</th>
+            <td>{{ openingstijden.sluiting ? openingstijden.sluiting|date('H:i:s') : '' }}</td>
+        </tr>
+	    </tbody>
+</table>
+
+<a href="{{ path('openingstijden_index') }}" class="btn btn-primary">Terug</a>
+<br>
+<a class="btn btn-warning" href="{{ path('openingstijden_edit', {'id': openingstijden.id}) }}">Bewerken</a>
+<br>
+{{ include('openingstijden/_delete_form.html.twig') }}
+{% endblock %}

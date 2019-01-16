@@ -1,0 +1,30 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Tafel{% endblock %}
+
+{% block body %}
+<h1>Tafel</h1>
+<hr>
+<table class="table">
+    <tbody>
+	        <tr>
+            <th>Id</th>
+            <td>{{ tafel.id }}</td>
+        </tr>
+	        <tr>
+            <th>Personen</th>
+            <td>{{ tafel.personen }}</td>
+        </tr>
+	        <tr>
+            <th>Naam</th>
+            <td>{{ tafel.naam }}</td>
+        </tr>
+	    </tbody>
+</table>
+
+<a href="{{ path('tafel_index') }}" class="btn btn-primary">Terug</a>
+<br>
+<a class="btn btn-warning" href="{{ path('tafel_edit', {'id': tafel.id}) }}">Bewerken</a>
+<br>
+{{ include('tafel/_delete_form.html.twig') }}
+{% endblock %}
