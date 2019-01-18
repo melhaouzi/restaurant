@@ -21,68 +21,88 @@ class BestellingController extends AbstractController {
 	 * @Route("/", name="bestelling_index", methods={"GET"})
 	 */
 	public function index( BestellingRepository $bestellingRepository ): Response {
-		return $this->render( 'bestelling/index.html.twig', [
-			'bestellings' => $bestellingRepository->findAll(),
-		] );
+		if($this->isGranted("ROLE_SUPER_ADMIN")) {
+			return $this->render( 'bestelling/index.html.twig', [
+				'bestellings' => $bestellingRepository->findAll(),
+			] );
+		}
+		else{
+			return $this->render('default/accessdenied.html.twig');
+		}
 	}
 
 	/**
 	 * @Route("/new", name="bestelling_new", methods={"GET","POST"})
 	 */
 	public function new( Request $request ): Response {
-		$bestelling = new Bestelling();
-		$form       = $this->createForm( BestellingType::class, $bestelling );
-		$form->handleRequest( $request );
+		if($this->isGranted("ROLE_SUPER_ADMIN")) {
+			$bestelling = new Bestelling();
+			$form       = $this->createForm( BestellingType::class, $bestelling );
+			$form->handleRequest( $request );
 
-		if ( $form->isSubmitted() && $form->isValid() ) {
-			$entityManager = $this->getDoctrine()->getManager();
-			$entityManager->persist( $bestelling );
-			$entityManager->flush();
+			if ( $form->isSubmitted() && $form->isValid() ) {
+				$entityManager = $this->getDoctrine()->getManager();
+				$entityManager->persist( $bestelling );
+				$entityManager->flush();
 
-			return $this->redirectToRoute( 'bestelling_index' );
+				return $this->redirectToRoute( 'bestelling_index' );
+			}
+
+			return $this->render( 'bestelling/new.html.twig', [
+				'bestelling' => $bestelling,
+				'form'       => $form->createView(),
+			] );
 		}
-
-		return $this->render( 'bestelling/new.html.twig', [
-			'bestelling' => $bestelling,
-			'form'       => $form->createView(),
-		] );
+		else{
+			return $this->render('default/accessdenied.html.twig');
+		}
 	}
 
 	/**
 	 * @Route("/{id}", name="bestelling_show", methods={"GET"})
 	 */
 	public function show( Bestelling $bestelling ): Response {
-		$em        = $this->getDoctrine()->getManager();
-		$regels    = $em->getRepository( BestelRegel::class )->findby( [ 'bestelling' => $bestelling->getId() ] );
-		$gerechten = $em->getRepository( Gerecht::class )->findall();
+		if($this->isGranted("ROLE_SUPER_ADMIN")) {
+			$em        = $this->getDoctrine()->getManager();
+			$regels    = $em->getRepository( BestelRegel::class )->findby( [ 'bestelling' => $bestelling->getId() ] );
+			$gerechten = $em->getRepository( Gerecht::class )->findall();
 
-		// dump($regels);
-		return $this->render( 'bestelling/show.html.twig', array(
-			'bestelling'  => $bestelling,
-			'gerechten' => $gerechten,
-			'regels'   => $regels,
-		) );
+			// dump($regels);
+			return $this->render( 'bestelling/show.html.twig', array(
+				'bestelling' => $bestelling,
+				'gerechten'  => $gerechten,
+				'regels'     => $regels,
+			) );
+		}
+		else{
+			return $this->render('default/accessdenied.html.twig');
+		}
 	}
 
 	/**
 	 * @Route("/{id}/edit", name="bestelling_edit", methods={"GET","POST"})
 	 */
 	public function edit( Request $request, Bestelling $bestelling ): Response {
-		$form = $this->createForm( BestellingType::class, $bestelling );
-		$form->handleRequest( $request );
+		if($this->isGranted("ROLE_SUPER_ADMIN")) {
+			$form = $this->createForm( BestellingType::class, $bestelling );
+			$form->handleRequest( $request );
 
-		if ( $form->isSubmitted() && $form->isValid() ) {
-			$this->getDoctrine()->getManager()->flush();
+			if ( $form->isSubmitted() && $form->isValid() ) {
+				$this->getDoctrine()->getManager()->flush();
 
-			return $this->redirectToRoute( 'bestelling_show', [
-				'id' => $bestelling->getId(),
+				return $this->redirectToRoute( 'bestelling_show', [
+					'id' => $bestelling->getId(),
+				] );
+			}
+
+			return $this->render( 'bestelling/edit.html.twig', [
+				'bestelling' => $bestelling,
+				'form'       => $form->createView(),
 			] );
 		}
-
-		return $this->render( 'bestelling/edit.html.twig', [
-			'bestelling' => $bestelling,
-			'form'       => $form->createView(),
-		] );
+		else{
+			return $this->render('default/accessdenied.html.twig');
+		}
 	}
 
 	/**
