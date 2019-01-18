@@ -44,27 +44,27 @@ class BoekingsController extends AbstractController {
 		$boeking = $session->get( 'boeking', array() );
 
 		if ( empty( $boeking ) ) {
-
 			$datum   = new \DateTime( "now" );
 			$boeking = [ 'aantal' => 5, 'datumtijd' => $datum ];
 			$form    = $this->createFormBuilder( $boeking )
+			                ->add( 'klant',null, ['label'=>'Naam'] )
 			                ->add( 'aantal', IntegerType::class )
 			                ->add( 'datumtijd', DateTimeType::class )
 			                ->add( 'save', SubmitType::class, array( 'label' => 'Zoek tafels' ) )
 			                ->getForm();
 		} else {
-
 			$tafels = [];
 
 			foreach ( $boeking['tafels'] as $key => $personen ) {
 				$tafels[ $personen . ' personen ' ] = $key;
 			}
 
-			$form = $this->createFormBuilder( $boeking )
-			             ->add( 'aantal', IntegerType::class )
-			             ->add( 'datumtijd', DateTimeType::class )
-			             ->add( 'save', SubmitType::class, array( 'label' => 'Reserveren?' ) )
-			             ->getForm();
+			$form = $this->createFormBuilder( $boeking
+				->add( 'klant',null, ['label'=>'Naam'] )
+				->add( 'aantal', IntegerType::class )
+				->add( 'datumtijd', DateTimeType::class )
+				->add( 'save', SubmitType::class, array( 'label' => 'Reserveren?' ) )
+				->getForm() );
 		}
 
 		$form->handleRequest( $request );
@@ -138,22 +138,23 @@ class BoekingsController extends AbstractController {
 			}
 
 			$form = $this->createFormBuilder( $boeking )
+			             ->add( 'klant',null, ['label'=>'Naam'] )
 			             ->add( 'aantal', IntegerType::class )
 			             ->add( 'datumtijd', DateTimeType::class )
 			             ->add( 'tafels', ChoiceType::class, [
 				             'choices'  => $tafels,
 				             'multiple' => true,
-				             'attr'=>['class'=>'js-example-basic-multiple']
+				             'attr'     => [ 'class' => 'js-example-basic-multiple' ]
 			             ] )
 			             ->add( 'save', SubmitType::class, array( 'label' => 'Maak Boeking' ) )
 			             ->getForm();
 		}
 
 		if ( ! isset( $form ) ) {
-			return $this->render('boekings/index.html.twig',[
-				'form'=>null,
-				'message'=>'Geen tafel beschikbaar'
-			]);
+			return $this->render( 'boekings/index.html.twig', [
+				'form'    => null,
+				'message' => 'Geen tafel beschikbaar'
+			] );
 		}
 
 		$form->handleRequest( $request );
@@ -161,12 +162,12 @@ class BoekingsController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 
 			$boeking = $form->getData();
-			$em         = $this->getDoctrine()->getManager();
+			$em      = $this->getDoctrine()->getManager();
 
 			$reservatie = new Reservering();
 			$reservatie->setAantalPersonen( $boeking['aantal'] );
 			$reservatie->setDatum( $boeking['datumtijd'] );
-			$reservatie->setKlant( $this->getUser() );
+			$reservatie->setKlant( $boeking['klant'] );
 
 			foreach ( $boeking['tafels'] as $tfl ) {
 				$tafel = $this->getDoctrine()->getRepository( 'App:Tafel' )->findOneBy( [ 'id' => ( $tfl + 1 ) ] );
@@ -177,9 +178,9 @@ class BoekingsController extends AbstractController {
 			$em->flush();
 			$session->remove( 'boeking' );
 
-			return $this->render('boekings/success.html.twig', [
-				'form'=> null
-			]);
+			return $this->render( 'boekings/success.html.twig', [
+				'form' => null
+			] );
 		}
 
 		return $this->render( 'boekings/index.html.twig', array(
