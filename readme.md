@@ -1,4 +1,4 @@
-<h1>PHP Versie Update Mac:</h1>
+<h1>PHP Versie Update Mac</h1>
 <Br>
 <Br>
 <b>STAP 1:</b>
